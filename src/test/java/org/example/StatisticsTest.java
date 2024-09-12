@@ -28,6 +28,8 @@ public class StatisticsTest {
 
         assertEquals(3, duplicates.get("A.X"));
     }
+
+
     @Test
     void testCalculateGroupWeights() {
         List<ObjectData> objects = new ArrayList<>();
@@ -39,11 +41,14 @@ public class StatisticsTest {
 
         Map<String, Long> groupWeights = new HashMap<>();
         for (ObjectData object : objects) {
-            groupWeights.put(object.group, groupWeights.getOrDefault(object.group, 0L) + object.weight);
+            String group = object.getGroup();
+            long weight = object.getWeight();
+
+            groupWeights.compute(group, (k, v) -> (v == null) ? weight : v + weight);
         }
 
-        assertEquals(100L, groupWeights.get("A"));
 
+        assertEquals(100L, groupWeights.get("A"));
     }
 
     @Test

@@ -17,7 +17,10 @@ public class Statistics {
 
         Map<String, Long> groupWeights = new HashMap<>();
         for (ObjectData object : objects) {
-            groupWeights.put(object.group, groupWeights.getOrDefault(object.group, 0L) + object.weight);
+        String group = object.getGroup();
+        long weight = object.getWeight();
+
+        groupWeights.compute(group, (k, v) -> (v == null) ? weight : v + weight);
         }
 
 
